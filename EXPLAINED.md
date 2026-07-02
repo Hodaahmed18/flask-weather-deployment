@@ -23,14 +23,14 @@ Same pattern as every deployment. Only the tools change based on the language.
 ## Why This Is Different From the Node.js Deployment
 
 The tictactoe app was JavaScript. This is Python.
-Different language means different tools — but the infrastructure pattern is identical.
+Different language means different tools, but the infrastructure pattern is identical.
 
 The only things that changed:
 - pip3 instead of npm (different package manager, same job)
 - gunicorn instead of npm start (different server, same job)
 - Port 5000 instead of 3000 (Flask default instead of Node default)
 
-Everything else : nginx, pm2, EC2, security groups, sed — stayed exactly the same.
+Everything else : nginx, pm2, EC2, security groups, sed, stayed EXACTLY the same.
 
 ---
 
