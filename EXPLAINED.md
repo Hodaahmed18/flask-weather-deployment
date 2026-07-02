@@ -1,4 +1,4 @@
-# Flask Weather API Deployment — Explained
+# Flask Weather API Deployment - Explained
 
 This document explains every decision made during the deployment.
 Not just what we ran, but why we ran it and what would break without it.
@@ -30,11 +30,11 @@ The only things that changed:
 - gunicorn instead of npm start (different server, same job)
 - Port 5000 instead of 3000 (Flask default instead of Node default)
 
-Everything else — nginx, pm2, EC2, security groups, sed — stayed exactly the same.
+Everything else : nginx, pm2, EC2, security groups, sed — stayed exactly the same.
 
 ---
 
-## Step 1 — EC2 Instance
+## Step 1 - EC2 Instance
 
 Fresh Ubuntu 26.04, t3.micro on AWS.
 
@@ -48,7 +48,7 @@ Port 80 is where nginx listens, it's the public-facing entry point.
 
 ---
 
-## Step 2 — System Update
+## Step 2 - System Update
 
 ```bash
 sudo apt update -y && sudo apt upgrade -y
@@ -59,7 +59,7 @@ Outdated packages mean outdated security vulnerabilities.
 
 ---
 
-## Step 3 — Install nginx
+## Step 3 - Install nginx
 
 ```bash
 sudo apt install nginx -y
@@ -72,7 +72,7 @@ Same role as in the Node deployment. Nothing changed here.
 
 ---
 
-## Step 4 — Install Python Dependencies
+## Step 4 - Install Python Dependencies
 
 ```bash
 sudo apt install python3-pip -y
@@ -92,7 +92,7 @@ pip and the system package manager would conflict otherwise.
 
 ---
 
-## Step 5 — Transfer Files
+## Step 5 - Transfer Files
 
 The app needs two files on the server:
 - weather_api.py: the application code
@@ -108,7 +108,7 @@ SCP runs from your local machine, not from inside SSH.
 
 ---
 
-## Step 6 — Why Gunicorn
+## Step 6 - Why Gunicorn
 
 Flask has a built-in server you can run with python3 weather_api.py.
 It works but Flask itself warns you not to use it in production.
@@ -132,7 +132,7 @@ gunicorn --bind 0.0.0.0:5000 weather_api:app
 
 ---
 
-## Step 7 — nginx as Reverse Proxy
+## Step 7 - nginx as Reverse Proxy
 
 Same as tictactoe. One sed command edits the nginx config automatically:
 
@@ -147,7 +147,7 @@ User types the IP, hits port 80, nginx silently passes it to the app.
 
 ---
 
-## Step 8 — pm2 to Keep It Alive
+## Step 8 - pm2 to Keep It Alive
 
 Gunicorn blocks the terminal. Close the terminal and the app dies.
 pm2 solves this the same way it did for Node.
@@ -160,7 +160,7 @@ pm2 doesn't care what language the process is. It just keeps it running.
 
 ---
 
-## Step 9 — Test
+## Step 9 - Test
 
 http://YOUR_IP/weather?postcode=SW1A1AA
 
